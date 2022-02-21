@@ -34,6 +34,7 @@ class ControllerModel(nn.Module):
 
 if __name__ == '__main__':
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(device)
 
     x = np.empty(shape=(1000, 10))
     y = np.empty(shape=(1000, 20))
@@ -45,7 +46,8 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
     or_time = time.time()
-    for epoch in range(1):
+    for epoch in range(20):
+        dev_time = time.time()
         for x, y in dataloader:
             x = x.to(device)
             y = y.to(device)
@@ -54,5 +56,6 @@ if __name__ == '__main__':
             loss = criterion(output, y)
             loss.backward()
             optimizer.step()
+        print(time.time() - dev_time)
 
     print(time.time() - or_time)
